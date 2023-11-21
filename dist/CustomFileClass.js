@@ -23,6 +23,7 @@ class CustomFile {
         this.lengthBinary = "";
         this.metaData = "";
         this.completeFile = "";
+        this.completeFileLength = 0;
     }
     readFileData() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -34,6 +35,7 @@ class CustomFile {
                 this.metaData =
                     this.nameBinary + this.extensionBinary + this.lengthBinary;
                 this.completeFile = this.metaData + this.content;
+                this, (this.completeFileLength = this.completeFile.length);
             }
             catch (error) {
                 console.error("Error reading file:", error);

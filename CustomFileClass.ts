@@ -12,6 +12,7 @@ class CustomFile {
   lengthBinary: string;
   metaData: string;
   completeFile: string;
+  completeFileLength: number;
 
   // Constructor
   constructor(path: string) {
@@ -25,6 +26,7 @@ class CustomFile {
     this.lengthBinary = "";
     this.metaData = "";
     this.completeFile = "";
+    this.completeFileLength = 0;
   }
 
   public async readFileData(): Promise<void> {
@@ -36,6 +38,7 @@ class CustomFile {
       this.metaData =
         this.nameBinary + this.extensionBinary + this.lengthBinary;
       this.completeFile = this.metaData + this.content;
+      this, (this.completeFileLength = this.completeFile.length);
     } catch (error) {
       console.error("Error reading file:", error);
       throw error; // Re-throw the error if needed

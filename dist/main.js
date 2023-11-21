@@ -12,17 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const EncodedFileClass_1 = __importDefault(require("./EncodedFileClass"));
 const DecodedFileClass_1 = __importDefault(require("./DecodedFileClass"));
 const readFrames_1 = __importDefault(require("./readFrames"));
+const convertBinaryToFile_1 = __importDefault(require("./convertBinaryToFile"));
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    const filePath = "test.pdf";
-    const uploadedFile = new EncodedFileClass_1.default(filePath);
-    yield uploadedFile.readFileData();
+    // const filePath = "test.pdf";
+    // const uploadedFile = new EncodedFile(filePath);
+    // await uploadedFile.readFileData();
     // generateFrames(uploadedFile);
     const extractedBinaryData = yield (0, readFrames_1.default)();
     const extractedFile = new DecodedFileClass_1.default(extractedBinaryData);
-    console.log(uploadedFile.content === extractedFile.content);
+    (0, convertBinaryToFile_1.default)(extractedFile.content, `${extractedFile.name}.${extractedFile.extension}`);
 });
 main();
 //# sourceMappingURL=main.js.map

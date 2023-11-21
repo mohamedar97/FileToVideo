@@ -13,12 +13,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const CustomFileClass_1 = __importDefault(require("./CustomFileClass"));
-const createVideo_1 = __importDefault(require("./createVideo"));
+const readFrames_1 = __importDefault(require("./readFrames"));
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const filePath = "test.pdf";
     const uploadedFile = new CustomFileClass_1.default(filePath);
     yield uploadedFile.readFileData();
-    (0, createVideo_1.default)(uploadedFile);
+    // generateFrames(uploadedFile);
+    const extractedFile = yield (0, readFrames_1.default)();
+    console.log(extractedFile === uploadedFile.completeFile);
 });
 main();
 //# sourceMappingURL=main.js.map

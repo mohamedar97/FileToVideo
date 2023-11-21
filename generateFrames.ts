@@ -1,15 +1,12 @@
 import * as fs from "fs";
 import { createCanvas, CanvasRenderingContext2D } from "canvas";
-import * as ffmpegStatic from "ffmpeg-static";
-import { spawn } from "child_process";
 import CustomFile from "./CustomFileClass";
 
 const width = 1920;
 const height = 1080;
-const framesPerSecond = 30;
 const outputDir = "frames"; // Directory to save individual frames
 
-const generateVideo = (binaryFile: CustomFile) => {
+const generateFrames = (binaryFile: CustomFile) => {
   const numberOfBits = binaryFile.completeFileLength;
   const file = binaryFile.completeFile;
   const numberOfFrames = Math.ceil(numberOfBits / (width * height));
@@ -36,4 +33,4 @@ const generateVideo = (binaryFile: CustomFile) => {
   }
 };
 
-export default generateVideo;
+export default generateFrames;

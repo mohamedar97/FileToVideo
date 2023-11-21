@@ -1,3 +1,5 @@
 node_modules
-test.pdf
+*.pdf
 .vscode
+*.mp4
+*.png

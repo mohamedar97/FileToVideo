@@ -1,12 +1,12 @@
 import * as fs from "fs";
 import { createCanvas, CanvasRenderingContext2D } from "canvas";
-import CustomFile from "./CustomFileClass";
+import EncodedFile from "./EncodedFileClass";
 
 const width = 1920;
 const height = 1080;
 const outputDir = "frames"; // Directory to save individual frames
 
-const generateFrames = (binaryFile: CustomFile) => {
+const generateFrames = (binaryFile: EncodedFile) => {
   const numberOfBits = binaryFile.completeFileLength;
   const file = binaryFile.completeFile;
   const numberOfFrames = Math.ceil(numberOfBits / (width * height));

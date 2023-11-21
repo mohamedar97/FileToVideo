@@ -1,6 +1,6 @@
 import { readBinaryFile } from "./readBinaryFile.js";
 
-class CustomFile {
+class EncodedFile {
   // Properties
   path: string;
   content: string;
@@ -34,7 +34,7 @@ class CustomFile {
       const binaryData = await readBinaryFile(this.path);
       this.content = binaryData;
       this.length = this.content.length;
-      this.lengthBinary = this.convertToBinary(this.length.toString(), 32);
+      this.lengthBinary = this.length.toString(2).padStart(32, "0");
       this.metaData =
         this.nameBinary + this.extensionBinary + this.lengthBinary;
       this.completeFile = this.metaData + this.content;
@@ -52,9 +52,8 @@ class CustomFile {
       binaryString += binaryChar.padStart(8, "0"); // Ensure each character is 8 bits long
     }
     binaryString = binaryString.padStart(minLength, "0");
-
     return binaryString;
   }
 }
 
-export default CustomFile;
+export default EncodedFile;

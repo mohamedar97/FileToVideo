@@ -22,29 +22,34 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
-const canvas_1 = require("canvas");
-const width = 1920;
-const height = 1080;
-const outputDir = "frames"; // Directory to save individual frames
-const generateFrames = (binaryString, chunkCounter) => {
-    const canvas = (0, canvas_1.createCanvas)(width, height);
-    const ctx = canvas.getContext("2d");
-    let i = 0;
-    while (i < width * height) {
-        const xCordinate = i % width;
-        const yCordinate = Math.floor(i / width) % height;
-        const frame = Math.floor(i / (width * height));
-        binaryString[i] === "1"
-            ? (ctx.fillStyle = "rgb(255,255,255)")
-            : (ctx.fillStyle = "rgb(0,0,0)");
-        ctx.fillRect(xCordinate, yCordinate, 1, 1);
-        i++;
+const generateFrames_1 = __importDefault(require("./generateFrames"));
+const bufferToBinaryString = (buffer) => {
+    let binaryString = "";
+    for (let i = 0; i < buffer.length; i++) {
+        const byteString = buffer[i].toString(2).padStart(8, "0");
+        binaryString += byteString;
     }
-    const outputFilePath = `${outputDir}/frame_${chunkCounter}.png`;
-    fs.writeFileSync(outputFilePath, canvas.toBuffer());
-    return binaryString.slice(width * height - binaryString.length);
+    return binaryString;
 };
-exports.default = generateFrames;
-//# sourceMappingURL=generateFrames.js.map
+const readFileStream = (options) => {
+    const readStream = fs.createReadStream(options.filePath, {
+        highWaterMark: (options.frameHeight * options.frameWidth) / 8,
+    });
+    let remainingBits = options.metaData;
+    let chunkCounter = 0;
+    readStream.on("data", (chunk) => {
+        const binaryString = remainingBits + bufferToBinaryString(chunk);
+        remainingBits = (0, generateFrames_1.default)(binaryString, chunkCounter);
+        chunkCounter++;
+    });
+    readStream.on("end", () => {
+        console.log("Conversion Done");
+    });
+};
+exports.default = readFileStream;
+//# sourceMappingURL=readFileStream.js.map

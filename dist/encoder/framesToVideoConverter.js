@@ -23,28 +23,29 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = __importStar(require("fs"));
-const canvas_1 = require("canvas");
-const width = 1920;
-const height = 1080;
-const outputDir = "frames"; // Directory to save individual frames
-const generateFrames = (binaryString, chunkCounter) => {
-    const canvas = (0, canvas_1.createCanvas)(width, height);
-    const ctx = canvas.getContext("2d");
-    let i = 0;
-    while (i < width * height) {
-        const xCordinate = i % width;
-        const yCordinate = Math.floor(i / width) % height;
-        const frame = Math.floor(i / (width * height));
-        binaryString[i] === "1"
-            ? (ctx.fillStyle = "rgb(255,255,255)")
-            : (ctx.fillStyle = "rgb(0,0,0)");
-        ctx.fillRect(xCordinate, yCordinate, 1, 1);
-        i++;
-    }
-    const outputFilePath = `${outputDir}/frame_${chunkCounter}.png`;
-    fs.writeFileSync(outputFilePath, canvas.toBuffer());
-    return binaryString.slice(width * height - binaryString.length);
+const ffmpeg = require("fluent-ffmpeg");
+const glob = __importStar(require("glob"));
+const framesToVideoConverter = () => {
+    // Set the path to the FFmpeg binary
+    ffmpeg.setFfmpegPath("/opt/homebrew/bin/ffmpeg");
+    // Input images path and output video path
+    const imagesPath = "frames/*.png"; // Replace with the actual path to your images
+    const outputVideoPath = "output.mp4"; // Replace with the desired output video path
+    // Get a list of input image files
+    const imageFiles = glob.sync(imagesPath);
+    // Convert images to video
+    ffmpeg()
+        .input(`concat:${imageFiles.join("|")}`)
+        .inputFormat("image2pipe")
+        .inputFPS(1) // Frames per second
+        .output(outputVideoPath)
+        .on("end", () => {
+        console.log("Conversion finished.");
+    })
+        .on("error", (err) => {
+        console.error("Error:", err);
+    })
+        .run();
 };
-exports.default = generateFrames;
-//# sourceMappingURL=generateFrames.js.map
+exports.default = framesToVideoConverter;
+//# sourceMappingURL=framesToVideoConverter.js.map

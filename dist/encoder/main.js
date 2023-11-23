@@ -1,23 +1,20 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const EncodedFileClass_1 = __importDefault(require("./EncodedFileClass"));
-const generateFrames_1 = __importDefault(require("./generateFrames"));
-const encoder = (options) => __awaiter(void 0, void 0, void 0, function* () {
+const framesToVideoConverter_1 = __importDefault(require("./framesToVideoConverter"));
+const readFileStream_1 = __importDefault(require("./readFileStream"));
+const encoder = (options) => {
     const uploadedFile = new EncodedFileClass_1.default(options.filePath);
-    yield uploadedFile.readFileData();
-    (0, generateFrames_1.default)(uploadedFile);
-});
+    (0, readFileStream_1.default)({
+        filePath: uploadedFile.path,
+        metaData: uploadedFile.metaData,
+        frameHeight: options.frameHeight,
+        frameWidth: options.frameWidth,
+    });
+    (0, framesToVideoConverter_1.default)();
+};
 exports.default = encoder;
 //# sourceMappingURL=main.js.map

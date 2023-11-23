@@ -1,13 +1,21 @@
 import EncodedFile from "./EncodedFileClass";
-import generateFrames from "./generateFrames";
+import framesToVideoConverter from "./framesToVideoConverter";
+import readFileStream from "./readFileStream";
 
 interface EncoderOptions {
   filePath: string;
+  frameWidth: number;
+  frameHeight: number;
 }
-const encoder = async (options: EncoderOptions) => {
+const encoder = (options: EncoderOptions) => {
   const uploadedFile = new EncodedFile(options.filePath);
-  await uploadedFile.readFileData();
-  generateFrames(uploadedFile);
+  readFileStream({
+    filePath: uploadedFile.path,
+    metaData: uploadedFile.metaData,
+    frameHeight: options.frameHeight,
+    frameWidth: options.frameWidth,
+  });
+  framesToVideoConverter();
 };
 
 export default encoder;

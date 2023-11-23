@@ -1,7 +1,13 @@
 import decoder from "./decoder/main";
 import encoder from "./encoder/main";
-import framesToVideoConverter from "./framesToVideoConverter";
 
-// encoder({ filePath: "test.pdf" });
+const frameWidth = 1920;
+const frameHeight = 1080;
+
+// encoder({
+//   filePath: "test.pdf",
+//   frameHeight,
+//   frameWidth,
+// });
 // decoder({ filePath: "./output/" });
-framesToVideoConverter();
+// framesToVideoConverter();

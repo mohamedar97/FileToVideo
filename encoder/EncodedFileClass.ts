@@ -1,32 +1,28 @@
 const fs = require("fs");
 
+// This class represents all the information related to an encoded file
+
 class EncodedFile {
   // Properties
-  path: string;
-  content: string;
-  name: string;
-  extension: string;
-  length: number;
-  nameBinary: string;
-  extensionBinary: string;
-  lengthBinary: string;
-  metaData: string;
-  completeFile: string;
-  completeFileLength: number;
+  path: string; // File location
+  name: string; // File name
+  extension: string; // File Extension
+  length: number; // Number of bits in the file
+  nameBinary: string; // Binary representation of the file name stored in 1024 bits
+  extensionBinary: string; // Binary representation of the file extension stored in 64 bits
+  lengthBinary: string; // Binary representation of the file length stored in 32 bits
+  metaData: string; // A string consisting of 1120 bits representing all the metadata for the encoded file to make the decoding process possible
 
   // Constructor
   constructor(path: string) {
     this.path = path;
     this.name = this.path.split(".")[0];
     this.extension = this.path.split(".")[1];
-    this.content = "";
     this.length = fs.statSync(path).size * 8;
-    this.nameBinary = this.convertTextToBinary(this.name, 1024);
-    this.extensionBinary = this.convertTextToBinary(this.extension, 64);
-    this.lengthBinary = this.length.toString(2).padStart(32, "0");
+    this.nameBinary = this.convertTextToBinary(this.name, 1024); // Converts the name string to binary representation with a minimum length of 1024 bits
+    this.extensionBinary = this.convertTextToBinary(this.extension, 64); // Converts the extension string to binary representation with a minimum length of 64 bits
+    this.lengthBinary = this.length.toString(2).padStart(32, "0"); // Converts the length number to binary representation with a minimum length of 32 bits
     this.metaData = this.nameBinary + this.extensionBinary + this.lengthBinary;
-    this.completeFile = "";
-    this.completeFileLength = 0;
   }
 
   private convertTextToBinary(text: string, minLength: number): string {

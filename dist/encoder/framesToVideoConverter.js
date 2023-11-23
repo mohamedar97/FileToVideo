@@ -29,8 +29,8 @@ const framesToVideoConverter = () => {
     // Set the path to the FFmpeg binary
     ffmpeg.setFfmpegPath("/opt/homebrew/bin/ffmpeg");
     // Input images path and output video path
-    const imagesPath = "frames/*.png"; // Replace with the actual path to your images
-    const outputVideoPath = "output.mp4"; // Replace with the desired output video path
+    const imagesPath = "frames/*.png"; // Path to images
+    const outputVideoPath = "output.mp4"; // Output video path
     // Get a list of input image files
     const imageFiles = glob.sync(imagesPath);
     // Convert images to video

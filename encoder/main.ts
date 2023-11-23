@@ -19,9 +19,6 @@ const encoder = (options: EncoderOptions) => {
     frameHeight: options.frameHeight,
     frameWidth: options.frameWidth,
   });
-
-  // This function converts the frames to a video
-  framesToVideoConverter();
 };
 
 export default encoder;

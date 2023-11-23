@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import generateFrames from "./generateFrames";
+import framesToVideoConverter from "./framesToVideoConverter";
 
 const bufferToBinaryString = (buffer: Buffer): string => {
   let binaryString = "";
@@ -37,5 +38,9 @@ const readFileStream = (options: Options) => {
     }); // On the very first time this code runs, the remainingBits are the metaData, but after that it's the data remaining from each frame
     chunkCounter++; // Increases the counter to write the next frame
   });
+  readStream.on(
+    "end",
+    () => framesToVideoConverter() // This function converts the frames to a video.
+  );
 };
 export default readFileStream;

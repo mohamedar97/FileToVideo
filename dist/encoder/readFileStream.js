@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
 const generateFrames_1 = __importDefault(require("./generateFrames"));
+const framesToVideoConverter_1 = __importDefault(require("./framesToVideoConverter"));
 const bufferToBinaryString = (buffer) => {
     let binaryString = "";
     for (let i = 0; i < buffer.length; i++) {
@@ -55,6 +56,8 @@ const readFileStream = (options) => {
         }); // On the very first time this code runs, the remainingBits are the metaData, but after that it's the data remaining from each frame
         chunkCounter++; // Increases the counter to write the next frame
     });
+    readStream.on("end", () => (0, framesToVideoConverter_1.default)() // This function converts the frames to a video.
+    );
 };
 exports.default = readFileStream;
 //# sourceMappingURL=readFileStream.js.map

@@ -12,7 +12,7 @@ class DecodedFile {
     this.completeFile = completeFile;
     this.nameBinary = this.completeFile.slice(0, 1024);
     this.extensionBinary = this.completeFile.slice(1024, 1088);
-    this.lengthBinary = this.completeFile.slice(1088, 1120);
+    this.lengthBinary = this.completeFile.slice(1088, 1152);
     this.name = this.convertToASCII(this.nameBinary).replace(/\x00/g, "");
     this.extension = this.convertToASCII(this.extensionBinary).replace(
       /\x00/g,

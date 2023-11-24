@@ -2,15 +2,6 @@ import * as fs from "fs";
 import generateFrames from "./generateFrames";
 import framesToVideoConverter from "./framesToVideoConverter";
 
-const bufferToBinaryString = (buffer: Buffer): string => {
-  let binaryString = "";
-  for (let i = 0; i < buffer.length; i++) {
-    const byteString = buffer[i].toString(2).padStart(8, "0");
-    binaryString += byteString;
-  }
-  return binaryString;
-};
-
 interface Options {
   filePath: string; // The path to the required file
   metaData: string; // The metaData (name,extension,length) of the file
@@ -20,7 +11,7 @@ interface Options {
 const readFileStream = (options: Options) => {
   // Creates a read stream to the chosen file
   const readStream = fs.createReadStream(options.filePath, {
-    highWaterMark: (options.frameHeight * options.frameWidth) / 8, // highWaterMark is the maximum size for the read buffer. Its value currently represents the number of bits to fill a single frame completely.
+    highWaterMark: (options.frameHeight * options.frameWidth) / 2, // highWaterMark is the maximum size for the read buffer. Its value currently represents the number of bits to fill a single frame completely.
   });
 
   let remainingBits = options.metaData;
@@ -29,18 +20,21 @@ const readFileStream = (options: Options) => {
 
   readStream.on("data", (chunk: Buffer) => {
     // this event fire whenever the read buffer is full of data
-    const binaryString = remainingBits + bufferToBinaryString(chunk); // This is the part where we append the remainig data to the chunk as explained earlier.
+
+    const hexString = remainingBits + chunk.toString("hex"); // This is the part where we append the remainig data to the chunk as explained earlier.
     remainingBits = generateFrames({
       frameWidth: options.frameWidth,
       frameHeight: options.frameHeight,
-      binaryString,
+      hexString,
       frameCounter: chunkCounter,
     }); // On the very first time this code runs, the remainingBits are the metaData, but after that it's the data remaining from each frame
     chunkCounter++; // Increases the counter to write the next frame
   });
   readStream.on(
     "end",
-    () => framesToVideoConverter() // This function converts the frames to a video.
+    () => {
+      framesToVideoConverter();
+    } // This function converts the frames to a video.
   );
 };
 export default readFileStream;

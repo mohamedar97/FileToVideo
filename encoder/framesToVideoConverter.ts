@@ -16,7 +16,7 @@ const framesToVideoConverter = () => {
   ffmpeg()
     .input(`concat:${imageFiles.join("|")}`)
     .inputFormat("image2pipe")
-    .inputFPS(1) // Frames per second
+    .inputFPS(30) // Frames per second
     .output(outputVideoPath)
     .on("end", () => {
       console.log("Conversion finished.");

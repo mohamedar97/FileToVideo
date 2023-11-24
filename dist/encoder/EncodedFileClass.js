@@ -9,19 +9,20 @@ class EncodedFile {
         this.name = this.path.split(".")[0];
         this.extension = this.path.split(".")[1];
         this.length = fs.statSync(path).size * 8;
-        this.nameBinary = this.convertTextToBinary(this.name, 1024); // Converts the name string to binary representation with a minimum length of 1024 bits
-        this.extensionBinary = this.convertTextToBinary(this.extension, 64); // Converts the extension string to binary representation with a minimum length of 64 bits
-        this.lengthBinary = this.length.toString(2).padStart(32, "0"); // Converts the length number to binary representation with a minimum length of 32 bits
-        this.metaData = this.nameBinary + this.extensionBinary + this.lengthBinary;
+        this.nameHex = this.convertTextToHex(this.name, 256); // Converts the name string to Hex representation with a minimum length of 256 hex chars
+        this.extensionHex = this.convertTextToHex(this.extension, 16); // Converts the extension string to Hex representation with a minimum length of 16 hex chars
+        this.lengthHex = this.length.toString(16).padStart(16, "0"); // Converts the length number to Hex representation with a minimum length of 16 hex chars
+        this.metaData = this.nameHex + this.extensionHex + this.lengthHex;
     }
-    convertTextToBinary(text, minLength) {
-        let binaryString = "";
+    convertTextToHex(text, minLength) {
+        let hexString = "";
         for (let i = 0; i < text.length; i++) {
-            const binaryChar = text.charCodeAt(i).toString(2);
-            binaryString += binaryChar.padStart(8, "0"); // Ensure each character is 8 bits long
+            const hexChar = text.charCodeAt(i).toString(16);
+            hexString += hexChar;
+            // HexString += hexChar.padStart(2, "0"); // Ensure each character is 8 bits long
         }
-        binaryString = binaryString.padStart(minLength, "0");
-        return binaryString;
+        hexString = hexString.padStart(minLength, "0");
+        return hexString;
     }
 }
 exports.default = EncodedFile;

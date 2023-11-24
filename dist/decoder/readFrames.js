@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const canvas_1 = require("canvas");
 const promises_1 = require("fs/promises");
+const fourBitHashDecodingTable_1 = __importDefault(require("./fourBitHashDecodingTable"));
 const framesFolder = "frames";
 const readFrames = () => __awaiter(void 0, void 0, void 0, function* () {
     let totalBinaryData = "";
@@ -44,12 +48,9 @@ const extractBinaryData = (pixelData) => {
         const red = pixelData[i];
         const green = pixelData[i + 1];
         const blue = pixelData[i + 2];
-        if (red > 100 && green > 100 && blue > 100) {
-            binaryData += "1";
-        }
-        else {
-            binaryData += "0";
-        }
+        const key = `rgb(${red}, ${green}, ${blue})`;
+        binaryData +=
+            fourBitHashDecodingTable_1.default[key];
     }
     return binaryData;
 };

@@ -1,5 +1,6 @@
 import { createCanvas, loadImage } from "canvas";
 import { readdir } from "fs/promises";
+import fourBitRGBHashDecodingTable from "./fourBitHashDecodingTable";
 
 const framesFolder = "frames";
 const readFrames = async () => {
@@ -34,12 +35,12 @@ const extractBinaryData = (pixelData: Uint8ClampedArray): string => {
     const red = pixelData[i];
     const green = pixelData[i + 1];
     const blue = pixelData[i + 2];
+    const key = `rgb(${red}, ${green}, ${blue})`;
 
-    if (red > 100 && green > 100 && blue > 100) {
-      binaryData += "1";
-    } else {
-      binaryData += "0";
-    }
+    binaryData +=
+      fourBitRGBHashDecodingTable[
+        key as keyof typeof fourBitRGBHashDecodingTable
+      ];
   }
   return binaryData;
 };

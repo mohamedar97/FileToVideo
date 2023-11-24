@@ -1,10 +1,11 @@
 import * as fs from "fs";
 import { createCanvas, CanvasRenderingContext2D } from "canvas";
+import fourBitEncodingHashTable from "./fourBitHashEncodingTable";
 
 interface Options {
   frameWidth: number; // Frame width of the resulting frame
   frameHeight: number; // Frame height of the resulting frame
-  binaryString: string; // The binary to be converted to a string
+  hexString: string; // The binary to be converted to a string
   frameCounter: number; // The number of the current frame
 }
 
@@ -21,11 +22,12 @@ const generateFrames = (options: Options) => {
     const xCordinate = i % options.frameWidth; // Calculates the postion of the pixel in a row mathematically
     const yCordinate = Math.floor(i / options.frameWidth) % options.frameHeight; // Calculates the postion of the pixel in a column mathematically
     // The previous two line are an alternative to having two nested for loops inside this while loop to place the pixels
-
+    const hexChar = options.hexString[i];
     // This line assigns a pixel its value based on the current bit
-    options.binaryString[i] === "1"
-      ? (ctx.fillStyle = "rgb(255,255,255)")
-      : (ctx.fillStyle = "rgb(0,0,0)");
+    ctx.fillStyle =
+      fourBitEncodingHashTable[
+        hexChar as keyof typeof fourBitEncodingHashTable
+      ];
 
     ctx.fillRect(xCordinate, yCordinate, 1, 1); // Draws a pixel on the frame
     i++; // Moves to the next bit
@@ -34,8 +36,8 @@ const generateFrames = (options: Options) => {
   fs.writeFileSync(outputFilePath, canvas.toBuffer()); // Writes the resulting frame
 
   // Returns the remaining bits from every chunk as explained in the readFileStream file.
-  return options.binaryString.slice(
-    options.frameWidth * options.frameHeight - options.binaryString.length
+  return options.hexString.slice(
+    options.frameWidth * options.frameHeight - options.hexString.length
   );
 };
 

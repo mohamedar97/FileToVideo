@@ -1,5 +1,4 @@
 import EncodedFile from "./EncodedFileClass";
-import framesToVideoConverter from "./framesToVideoConverter";
 import readFileStream from "./readFileStream";
 
 // The entry point to the encoder program

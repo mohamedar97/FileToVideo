@@ -14,11 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const DecodedFileClass_1 = __importDefault(require("./DecodedFileClass"));
 const readFrames_1 = __importDefault(require("./readFrames"));
-const convertBinaryToFile_1 = __importDefault(require("./convertBinaryToFile"));
 const decoder = (options) => __awaiter(void 0, void 0, void 0, function* () {
-    const extractedBinaryData = yield (0, readFrames_1.default)();
-    const extractedFile = new DecodedFileClass_1.default(extractedBinaryData);
-    (0, convertBinaryToFile_1.default)(extractedFile.content, `${options.filePath}${extractedFile.name}.${extractedFile.extension}`);
+    const extractedMetaData = yield (0, readFrames_1.default)({
+        extractMetaDataOnly: true,
+    }); // Read frames takes two arguments that will be explained in the readFrames function, but this true is passed here to indicate that we only need to extract the file's meta data
+    const extractedFile = new DecodedFileClass_1.default(extractedMetaData, options.frameHeight, options.frameWidth); // Passes the extracted meta data to create a file class
+    yield (0, readFrames_1.default)({
+        extractMetaDataOnly: false,
+        decodedFile: extractedFile,
+    }); // Passes false to indicate we don't need the meta data, and
 });
 exports.default = decoder;
 //# sourceMappingURL=main.js.map

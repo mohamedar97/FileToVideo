@@ -12,4 +12,4 @@ encoder({
 });
 
 // The decoder takes a video, converts it to frames, then takes those frames, extracts their binary data and converts them to their original file formate
-// decoder({ filePath: "./output/" });
+// decoder({ filePath: "./output/", frameWidth, frameHeight });

@@ -62,19 +62,24 @@ const readFrames = async (options: Options) => {
         : extractBinaryData(pixelData);
       // This expression makes sure to remove the meta data from the actual file content. If extractBinaryData is false and this is the first frame. It cuts the meta data bits from the binary
       frameBinaryData =
-        firstFrame && !extractBinaryData
+        firstFrame && !options.extractMetaDataOnly
           ? frameBinaryData.slice(1152)
           : frameBinaryData;
       if (!options.extractMetaDataOnly && fileLength! > 0) {
         // This is the code section to write to the file which only needs to be executed if we're not trying to extract the meta data
         const binaryDataLength = frameBinaryData.length;
+        const trimmedFrameBinaryData = frameBinaryData.slice(
+          0,
+          Math.min(binaryDataLength, fileLength!)
+        );
         const binaryData = Uint8Array.from(
-          frameBinaryData.match(/.{1,8}/g)!.map((byte) => parseInt(byte, 2))
+          trimmedFrameBinaryData
+            .match(/.{1,8}/g)!
+            .map((byte) => parseInt(byte, 2))
         ); // Converts the binay string to a binary array
         // Create a Buffer from the Uint8Array
-        const buffer = Buffer.from(
-          binaryData.slice(0, fileLength! % binaryDataLength)
-        );
+
+        const buffer = Buffer.from(binaryData);
         writeStream!.write(buffer);
         firstFrame = false; // Sets the firstFrame flag to false.
         fileLength = fileLength! - binaryDataLength;

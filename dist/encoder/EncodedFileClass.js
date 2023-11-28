@@ -8,7 +8,7 @@ class EncodedFile {
         this.path = path;
         this.name = this.path.split(".")[0];
         this.extension = this.path.split(".")[1];
-        this.length = fs.statSync(path).size * 8;
+        this.length = fs.statSync(path).size * 8; // Multiple by 8 because fs.statSync returns the file size in bytes
         this.nameHex = this.convertTextToHex(this.name, 256); // Converts the name string to Hex representation with a minimum length of 256 hex chars
         this.extensionHex = this.convertTextToHex(this.extension, 16); // Converts the extension string to Hex representation with a minimum length of 16 hex chars
         this.lengthHex = this.length.toString(16).padStart(16, "0"); // Converts the length number to Hex representation with a minimum length of 16 hex chars

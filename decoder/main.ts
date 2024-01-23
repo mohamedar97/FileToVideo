@@ -1,4 +1,5 @@
 import DecodedFile from "./DecodedFileClass";
+// import convertVideoToFrames from "./convertVideoToFrames";
 import readFrames from "./readFrames";
 interface DecoderOptions {
   filePath: string;
@@ -6,6 +7,7 @@ interface DecoderOptions {
   frameHeight: number;
 }
 const decoder = async (options: DecoderOptions) => {
+  // await convertVideoToFrames();
   const extractedMetaData = await readFrames({
     extractMetaDataOnly: true,
   }); // Read frames takes two arguments that will be explained in the readFrames function, but this true is passed here to indicate that we only need to extract the file's meta data

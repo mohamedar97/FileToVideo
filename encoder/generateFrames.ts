@@ -9,7 +9,7 @@ interface Options {
   frameCounter: number; // The number of the current frame
 }
 
-const outputDir = "frames"; // Directory to save individual frames
+const outputDir = "encoder/frames"; // Directory to save individual frames
 
 const generateFrames = (options: Options) => {
   // Initial frame configuration

@@ -6,8 +6,8 @@ const framesToVideoConverter = () => {
   ffmpeg.setFfmpegPath("/opt/homebrew/bin/ffmpeg");
 
   // Input images path and output video path
-  const imagesPath = "frames/*.png"; // Path to images
-  const outputVideoPath = "output.mp4"; // Output video path
+  const imagesPath = "encoder/frames/*.png"; // Path to images
+  const outputVideoPath = "encoded_output/output.mp4"; // Output video path
 
   // Get a list of input image files
   const imageFiles = glob.sync(imagesPath);

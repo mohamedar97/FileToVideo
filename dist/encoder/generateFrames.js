@@ -29,7 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
 const canvas_1 = require("canvas");
 const fourBitHashEncodingTable_1 = __importDefault(require("./fourBitHashEncodingTable"));
-const outputDir = "frames"; // Directory to save individual frames
+const outputDir = "encoder/frames"; // Directory to save individual frames
 const generateFrames = (options) => {
     // Initial frame configuration
     const canvas = (0, canvas_1.createCanvas)(options.frameWidth, options.frameHeight);

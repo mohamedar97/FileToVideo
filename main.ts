@@ -1,6 +1,10 @@
 import decoder from "./decoder/main";
 import encoder from "./encoder/main";
 
+// #############################################
+// The encoder works perfectly, however the decoder isn't working properly. Mainly because the conversion from video to frames isn't functioning as expected. The extracted pictures from the video aren't similar to the original ones.
+// #############################################
+
 // The entry point for the program. Uncomment the part the you wish to use
 const frameWidth = 1920;
 const frameHeight = 1080;

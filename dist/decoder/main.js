@@ -13,8 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const DecodedFileClass_1 = __importDefault(require("./DecodedFileClass"));
+// import convertVideoToFrames from "./convertVideoToFrames";
 const readFrames_1 = __importDefault(require("./readFrames"));
 const decoder = (options) => __awaiter(void 0, void 0, void 0, function* () {
+    // await convertVideoToFrames();
     const extractedMetaData = yield (0, readFrames_1.default)({
         extractMetaDataOnly: true,
     }); // Read frames takes two arguments that will be explained in the readFrames function, but this true is passed here to indicate that we only need to extract the file's meta data
